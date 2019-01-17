@@ -7,7 +7,7 @@ import getopt
 import os
 import paho.mqtt.client as mqtt
 import json
-
+import re
 
 def on_connect(mqttc, obj, flags, rc):
     logging.info("mqtt connected")
@@ -109,7 +109,7 @@ while 1:
         
         logging.info(msg)
         mqttc.publish(mqttTopic+'receive', json.dumps(msg, ensure_ascii = False))
-        
+        mqttc.publish(mqttTopic+'receive/'+re.sub("\+|\#|\*|\s","_", m['Number']), json.dumps(msg, ensure_ascii = False))
     time.sleep(50)
 exit(0)
 
